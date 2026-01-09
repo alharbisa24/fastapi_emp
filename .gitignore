@@ -1,0 +1,9 @@
+# Python virtual environment
+venv/
+.venv/
+app/.env
+
+# Python cache
+__pycache__/
+*.pyc
+test.db
