@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.schemas.employee import EmployeeCreate, EmployeeBase, EmployeeOut
@@ -15,11 +16,10 @@ async def create_employee(emp: EmployeeCreate, db: AsyncSession = Depends(get_db
     return await employee_service.create_employee(db, emp)
 
 
-@router.get("/", response_model=List[EmployeeOut])
+@router.get("/", response_model=Page[EmployeeOut])
 async def get_employees(db: AsyncSession = Depends(get_db),  user: User = Depends(current_active_user)):
     employees = await employee_service.get_employees(db)
-    return employees
-
+    return paginate(employees) 
 
 @router.put("/{employee_id}", response_model=EmployeeOut)
 async def update_employee(

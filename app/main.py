@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import add_pagination
 
 from app.core.auth import fastapi_users, auth_backend
 from app.schemas.user import UserRead, UserCreate, UserUpdate
@@ -32,6 +33,7 @@ app.include_router(employees.router)
 app.include_router(departments.router)
 app.include_router(users.router)
 
+add_pagination(app)
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
